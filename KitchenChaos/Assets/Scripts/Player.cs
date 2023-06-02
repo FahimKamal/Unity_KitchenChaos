@@ -6,6 +6,8 @@ namespace GameScripts
     {
         [SerializeField] private float moveSpeed = 7f;
 
+        private bool _isWalking;
+
         private void Update()
         {
             var inputVector = Vector2.zero;
@@ -36,10 +38,16 @@ namespace GameScripts
 
             // Move player
             transform.position += moveDir * (moveSpeed * Time.deltaTime);
+            _isWalking = moveDir != Vector3.zero;
 
             // Rotate player
             var rotateSpeed = 10f;
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+        }
+
+        public bool IsWalking()
+        {
+            return _isWalking;
         }
 
     }
