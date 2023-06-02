@@ -1,39 +1,18 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameScripts
 {
     public class Player : MonoBehaviour
     {
         [SerializeField] private float moveSpeed = 7f;
+        [SerializeField] private GameInput gameInput;
 
         private bool _isWalking;
 
         private void Update()
         {
-            var inputVector = Vector2.zero;
-            if (Input.GetKey(KeyCode.W))
-            {
-                inputVector.y = 1;
-            }
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                inputVector.y = -1;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                inputVector.x = -1;
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                inputVector.x = 1;
-            }
-
-            // Normalized inputVector for smooth player movement 
-            inputVector = inputVector.normalized;
-
+            var inputVector = gameInput.GetMovementVectorNormalized();
             var moveDir = new Vector3(inputVector.x, 0.0f, inputVector.y);
 
             // Move player
