@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,11 +13,21 @@ namespace GameScripts
         private bool _isWalking;
         private Vector3 _lastInteractDir;
 
+        private void Start()
+        {
+            gameInput.OnInteractAction += GameInputOnInteractAction;
+        }
+
+        private void GameInputOnInteractAction(object sender, EventArgs e)
+        {
+            HandleInteractions();
+        }
+
         private void Update()
         {
             HandleMovement();
             
-            HandleInteractions();
+            // HandleInteractions();
         }
 
         public bool IsWalking()
