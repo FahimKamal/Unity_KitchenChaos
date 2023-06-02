@@ -15,8 +15,49 @@ namespace GameScripts
             var inputVector = gameInput.GetMovementVectorNormalized();
             var moveDir = new Vector3(inputVector.x, 0.0f, inputVector.y);
 
+            // Detect side collisions
+            var moveDistance = moveSpeed * Time.deltaTime;
+            var playerRadius = 0.5f;
+            var playerHeight = 2.0f;
+            
+            // If CapsuleCast return false then it means player can move forward.
+            var Playerposition = transform.position;
+            var canMove = !Physics.CapsuleCast(Playerposition, Playerposition + Vector3.up * playerHeight, playerRadius,moveDir,  moveDistance);
+
+            if (!canMove)
+            {
+                // cannot move towards moveDir
+                // Attempt only X movement
+                var moveDirX = new Vector3(moveDir.x, 0.0f, 0.0f).normalized;
+                canMove = !Physics.CapsuleCast(Playerposition, Playerposition + Vector3.up * playerHeight, playerRadius,moveDirX,  moveDistance);
+                if (canMove)
+                {
+                    // can only move on the X
+                    moveDir = moveDirX;
+                }
+                else // cannot move on the x
+                {
+                    // Attempt only Z movement
+                    var moveDirZ = new Vector3(0.0f, 0.0f, moveDir.z).normalized;
+                    canMove = !Physics.CapsuleCast(Playerposition, Playerposition + Vector3.up * playerHeight, playerRadius,moveDirZ,  moveDistance);
+                    if (canMove)
+                    {
+                        // can only move on the Z
+                        moveDir = moveDirZ;
+                    }
+                    else
+                    {
+                        // cannot move any direction.
+                    }
+                }
+            }
+            
+
             // Move player
-            transform.position += moveDir * (moveSpeed * Time.deltaTime);
+            if (canMove)
+            {
+                transform.position += moveDir * moveDistance;
+            }
             _isWalking = moveDir != Vector3.zero;
 
             // Rotate player
