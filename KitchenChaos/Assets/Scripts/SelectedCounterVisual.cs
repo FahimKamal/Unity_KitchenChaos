@@ -9,17 +9,32 @@ namespace GameScripts
     {
         [SerializeField] private ClearCounter _clearCounter;
         [SerializeField] private GameObject visualGameObject;
+
         private void Start()
         {
-            Player.Instance.OnSelectedCounterChanged  += OnSelectedCounterChanged;
+            Player.Instance.OnSelectedCounterChanged += OnSelectedCounterChanged;
         }
 
         private void OnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
         {
             if (e.SelectedCounter == _clearCounter)
             {
-                
+                Show();
             }
+            else
+            {
+                Hide();
+            }
+        }
+
+        private void Show()
+        {
+            visualGameObject.SetActive(true);
+        }
+        
+        private void Hide()
+        {
+            visualGameObject.SetActive(false);
         }
     }
 }

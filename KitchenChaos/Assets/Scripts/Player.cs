@@ -72,7 +72,6 @@ namespace GameScripts
             {
                 if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
                 {
-                    // clearCounter.Interact();
                     if (clearCounter != _selectedCounter)
                     {
                         SetSelectedCounter(clearCounter);
