@@ -7,29 +7,29 @@ namespace GameScripts
     public class KitchenObject : MonoBehaviour
     {
         [SerializeField] private KitchenObjectSO kitchenObjectSO;
-        private ClearCounter clearCounter;
+        private IKitchenObjectParent kitchenObjectParent;
 
-        public void SetClearCounter(ClearCounter counter)
+        public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
         {
-            if (clearCounter != null)
+            if (this.kitchenObjectParent != null)
             {
-                clearCounter.ClearKitchenObject();
+                this.kitchenObjectParent.ClearKitchenObject();
             }
-            clearCounter = counter;
+            this.kitchenObjectParent = kitchenObjectParent;
 
-            if (clearCounter.HasKitchenObject())
+            if (this.kitchenObjectParent.HasKitchenObject())
             {
-                Debug.LogError("Counter already has a kitchenObject.");
+                Debug.LogError("IKitchenObjectParent already has a kitchenObject.");
             }
-            clearCounter.SetKitchenObject(this);
+            this.kitchenObjectParent.SetKitchenObject(this);
 
-            transform.parent = clearCounter.GetkitchenObjectFollowTransform();
+            transform.parent = this.kitchenObjectParent.GetKitchenObjectFollowTransform();
             transform.localPosition = Vector3.zero;
         }
 
-        public ClearCounter GetClearCounter()
+        public IKitchenObjectParent GetKitchenObjectParent()
         {
-            return clearCounter;
+            return kitchenObjectParent;
         }
 
         public KitchenObjectSO GetKitchenObjectSO() => kitchenObjectSO;

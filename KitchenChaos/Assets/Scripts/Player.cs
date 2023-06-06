@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameScripts
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IKitchenObjectParent
     {
         public static Player Instance { get; private set; }
 
@@ -13,23 +13,27 @@ namespace GameScripts
             {
                 Debug.Log("There is more than one Player instance.");
             }
+
             Instance = this;
         }
 
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+
         public class OnSelectedCounterChangedEventArgs : EventArgs
         {
             public ClearCounter SelectedCounter;
         }
-        
+
         [SerializeField] private float moveSpeed = 7f;
         [SerializeField] private GameInput gameInput;
         [SerializeField] private LayerMask counterLayerMask;
+        [SerializeField] private Transform kitchenObjectHoldPoint;
 
         private bool _isWalking;
         private Vector3 _lastInteractDir;
 
         private ClearCounter _selectedCounter;
+        private KitchenObject _kitchenObject;
 
         private void Start()
         {
@@ -40,14 +44,14 @@ namespace GameScripts
         {
             if (_selectedCounter != null)
             {
-                _selectedCounter.Interact();
+                _selectedCounter.Interact(this);
             }
         }
 
         private void Update()
         {
             HandleMovement();
-            
+
             HandleInteractions();
         }
 
@@ -63,12 +67,13 @@ namespace GameScripts
 
             if (moveDir != Vector3.zero)
             {
-                _lastInteractDir  = moveDir;
+                _lastInteractDir = moveDir;
             }
 
             var interactDistance = 2.0f;
 
-            if (Physics.Raycast(transform.position, _lastInteractDir, out var raycastHit, interactDistance, counterLayerMask))
+            if (Physics.Raycast(transform.position, _lastInteractDir, out var raycastHit, interactDistance,
+                    counterLayerMask))
             {
                 if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
                 {
@@ -76,10 +81,14 @@ namespace GameScripts
                     {
                         SetSelectedCounter(clearCounter);
                     }
-                } else {
+                }
+                else
+                {
                     SetSelectedCounter(null);
                 }
-            } else {
+            }
+            else
+            {
                 SetSelectedCounter(null);
             }
         }
@@ -87,7 +96,8 @@ namespace GameScripts
         private void SetSelectedCounter(ClearCounter selectedCounter)
         {
             _selectedCounter = selectedCounter;
-            OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs {SelectedCounter = _selectedCounter});
+            OnSelectedCounterChanged?.Invoke(this,
+                new OnSelectedCounterChangedEventArgs { SelectedCounter = _selectedCounter });
         }
 
         private void HandleMovement()
@@ -99,17 +109,19 @@ namespace GameScripts
             var moveDistance = moveSpeed * Time.deltaTime;
             const float playerRadius = 0.5f;
             const float playerHeight = 2.0f;
-            
+
             // If CapsuleCast return false then it means player can move forward.
             var playerPosition = transform.position;
-            var canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,moveDir,  moveDistance);
+            var canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,
+                moveDir, moveDistance);
 
             if (!canMove)
             {
                 // cannot move towards moveDir
                 // Attempt only X movement
                 var moveDirX = new Vector3(moveDir.x, 0.0f, 0.0f).normalized;
-                canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,moveDirX,  moveDistance);
+                canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,
+                    moveDirX, moveDistance);
                 if (canMove)
                 {
                     // can only move on the X
@@ -119,7 +131,8 @@ namespace GameScripts
                 {
                     // Attempt only Z movement
                     var moveDirZ = new Vector3(0.0f, 0.0f, moveDir.z).normalized;
-                    canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,moveDirZ,  moveDistance);
+                    canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight,
+                        playerRadius, moveDirZ, moveDistance);
                     if (canMove)
                     {
                         // can only move on the Z
@@ -131,13 +144,14 @@ namespace GameScripts
                     }
                 }
             }
-            
+
 
             // Move player
             if (canMove)
             {
                 transform.position += moveDir * moveDistance;
             }
+
             _isWalking = moveDir != Vector3.zero;
 
             // Rotate player
@@ -145,5 +159,29 @@ namespace GameScripts
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         }
 
+        public Transform GetKitchenObjectFollowTransform()
+        {
+            return kitchenObjectHoldPoint;
+        }
+
+        public void SetKitchenObject(KitchenObject kitchenObject)
+        {
+            this._kitchenObject = kitchenObject;
+        }
+
+        public KitchenObject GetKitchenObject()
+        {
+            return _kitchenObject;
+        }
+
+        public void ClearKitchenObject()
+        {
+            _kitchenObject = null;
+        }
+
+        public bool HasKitchenObject()
+        {
+            return _kitchenObject != null;
+        }
     }
 }

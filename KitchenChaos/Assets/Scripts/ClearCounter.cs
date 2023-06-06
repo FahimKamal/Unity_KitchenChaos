@@ -3,48 +3,36 @@ using UnityEngine;
 
 namespace GameScripts
 {
-    public class ClearCounter : MonoBehaviour
+    public class ClearCounter : MonoBehaviour, IKitchenObjectParent
     {
         [SerializeField] private KitchenObjectSO _kitchenObjectSo;
         [SerializeField] private Transform counterTopPoint;
-        [SerializeField] private ClearCounter secondClearCounter;
-        [SerializeField] private bool testing;
 
         /// <summary>
         /// Place to know what kind of kitchen object is setting on top of this counter. 
         /// </summary>
         private KitchenObject _kitchenObject;
 
-        private void Update()
-        {
-            if (testing && Input.GetKeyDown(KeyCode.T))
-            {
-                if (_kitchenObject != null)
-                {
-                    _kitchenObject.SetClearCounter(secondClearCounter);
-                }
-            }
-        }
-
-        public void Interact()
+        public void Interact(Player player)
         {
             Debug.Log($"Interacted with {gameObject.name}");
 
             if (_kitchenObject == null)
             {
                 var kitchenObjectTransform = Instantiate(_kitchenObjectSo.kitchenObjectPrefab, counterTopPoint);
-                kitchenObjectTransform.GetComponent<KitchenObject>().SetClearCounter(this);
+                kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(this);
 
                 Debug.Log(
                     $"Spawned object: {kitchenObjectTransform.GetComponent<KitchenObject>().GetKitchenObjectSO().kitchenObjectName}");
             }
             else
             {
-                Debug.Log($"Already have object: {_kitchenObject.GetKitchenObjectSO().kitchenObjectName}");
+                // Give the object to the player
+                _kitchenObject.SetKitchenObjectParent(player);
             }
         }
-        
-        public Transform GetkitchenObjectFollowTransform()
+
+        public Transform GetKitchenObjectFollowTransform()
         {
             return  counterTopPoint;
         }
