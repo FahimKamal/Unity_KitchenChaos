@@ -21,7 +21,7 @@ namespace GameScripts
 
         public class OnSelectedCounterChangedEventArgs : EventArgs
         {
-            public ClearCounter SelectedCounter;
+            public BaseCounter SelectedCounter;
         }
 
         [SerializeField] private float moveSpeed = 7f;
@@ -32,7 +32,7 @@ namespace GameScripts
         private bool _isWalking;
         private Vector3 _lastInteractDir;
 
-        private ClearCounter _selectedCounter;
+        private BaseCounter _selectedCounter;
         private KitchenObject _kitchenObject;
 
         private void Start()
@@ -75,7 +75,7 @@ namespace GameScripts
             if (Physics.Raycast(transform.position, _lastInteractDir, out var raycastHit, interactDistance,
                     counterLayerMask))
             {
-                if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+                if (raycastHit.transform.TryGetComponent(out BaseCounter clearCounter))
                 {
                     if (clearCounter != _selectedCounter)
                     {
@@ -93,7 +93,7 @@ namespace GameScripts
             }
         }
 
-        private void SetSelectedCounter(ClearCounter selectedCounter)
+        private void SetSelectedCounter(BaseCounter selectedCounter)
         {
             _selectedCounter = selectedCounter;
             OnSelectedCounterChanged?.Invoke(this,
