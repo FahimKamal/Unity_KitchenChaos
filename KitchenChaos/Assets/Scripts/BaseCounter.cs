@@ -11,36 +11,36 @@ namespace GameScripts
         /// <summary>
         /// Place to know what kind of kitchen object is setting on top of this counter. 
         /// </summary>
-        private KitchenObject KitchenObject;
+        private KitchenObject _kitchenObject;
         
         public virtual void Interact(Player player)
         {
             Debug.LogError("BaseCounter.Interact(); must be implemented.");
         }
-
+        
         public Transform GetKitchenObjectFollowTransform()
         {
             return counterTopPoint;
         }
-
+        
         public void SetKitchenObject(KitchenObject kitchenObject)
         {
-            this.KitchenObject = kitchenObject;
+            this._kitchenObject = kitchenObject;
         }
-
+        
         public KitchenObject GetKitchenObject()
         {
-            return KitchenObject;
+            return _kitchenObject;
         }
-
+        
         public void ClearKitchenObject()
         {
-            KitchenObject = null;
+            _kitchenObject = null;
         }
-
+        
         public bool HasKitchenObject()
         {
-            return KitchenObject != null;
+            return _kitchenObject != null;
         }
     }
 }

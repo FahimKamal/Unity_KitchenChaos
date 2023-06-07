@@ -13,10 +13,9 @@ namespace GameScripts
 
         public override void Interact(Player player)
         {
-            Debug.Log($"Interacted with {gameObject.name}");
-
-            if (!HasKitchenObject())
+            if (!player.HasKitchenObject())
             {
+                // Player is not carrying anything so spawn new object.
                 var kitchenObjectTransform = Instantiate(_kitchenObjectSo.kitchenObjectPrefab);
                 kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
                 
