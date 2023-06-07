@@ -120,7 +120,7 @@ namespace GameScripts
                 // cannot move towards moveDir
                 // Attempt only X movement
                 var moveDirX = new Vector3(moveDir.x, 0.0f, 0.0f).normalized;
-                canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,
+                canMove = moveDir.x != 0 && !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,
                     moveDirX, moveDistance);
                 if (canMove)
                 {
@@ -131,7 +131,7 @@ namespace GameScripts
                 {
                     // Attempt only Z movement
                     var moveDirZ = new Vector3(0.0f, 0.0f, moveDir.z).normalized;
-                    canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight,
+                    canMove =moveDir.z != 0 && !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight,
                         playerRadius, moveDirZ, moveDistance);
                     if (canMove)
                     {
