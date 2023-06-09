@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GameScripts
 {
     public class CuttingCounter : BaseCounter
     { 
-        [SerializeField] private KitchenObjectSO cutKitchenObjectSo;
+        [SerializeField] private List<CuttingRecipeSO> cuttingRecipeSoList;
         
         public override void Interact(Player player)
         {
@@ -47,7 +45,7 @@ namespace GameScripts
                 GetKitchenObject().DestroySelf();
 
                 // Instantiate sliced version of that object.
-                KitchenObject.SpawnKitchenObject(cutKitchenObjectSo, this);
+                // KitchenObject.SpawnKitchenObject(cutKitchenObjectSo, this);
             }
         }
     }
