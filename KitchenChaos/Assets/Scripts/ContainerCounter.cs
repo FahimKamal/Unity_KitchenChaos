@@ -16,8 +16,7 @@ namespace GameScripts
             if (!player.HasKitchenObject())
             {
                 // Player is not carrying anything so spawn new object.
-                var kitchenObjectTransform = Instantiate(_kitchenObjectSo.kitchenObjectPrefab);
-                kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+                KitchenObject.SpawnKitchenObject(_kitchenObjectSo, player);
                 
                 OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
             }

@@ -43,8 +43,11 @@ namespace GameScripts
         {
             if (HasKitchenObject())
             {
-                // There is a kitchenObject here. Cut it.
+                // There is a kitchenObject here. destroy it.
                 GetKitchenObject().DestroySelf();
+
+                // Instantiate sliced version of that object.
+                KitchenObject.SpawnKitchenObject(cutKitchenObjectSo, this);
             }
         }
     }
