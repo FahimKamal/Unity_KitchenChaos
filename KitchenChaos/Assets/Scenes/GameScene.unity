@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -471,27 +471,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4897168671699477757, guid: 3ebc88f6192e8b045b912ba0a1442746,
-        type: 3}
-      propertyPath: testing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4897168671699477757, guid: 3ebc88f6192e8b045b912ba0a1442746,
-        type: 3}
-      propertyPath: _kitchenObjectSo
-      value: 
-      objectReference: {fileID: 11400000, guid: e48599f8b9402b04fb33ff10d6088fe6,
-        type: 2}
-    - target: {fileID: 4897168671699477757, guid: 3ebc88f6192e8b045b912ba0a1442746,
-        type: 3}
-      propertyPath: secondClearCounter
-      value: 
-      objectReference: {fileID: 916703957}
-    - target: {fileID: 7563656286428043029, guid: a172ec972c98fc6448fe40fad511e858,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1011164445443847947, guid: 1bc344f9dfc081c4390a19c4f6b79a0a,
         type: 3}
       propertyPath: m_RootOrder
@@ -551,6 +530,50 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CuttingCounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311245426650241332, guid: 1bc344f9dfc081c4390a19c4f6b79a0a,
+        type: 3}
+      propertyPath: cuttingRecipeSoList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311245426650241332, guid: 1bc344f9dfc081c4390a19c4f6b79a0a,
+        type: 3}
+      propertyPath: cuttingRecipeSoList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c17acbd4867ad874288c42d3d18e5a6e,
+        type: 2}
+    - target: {fileID: 6311245426650241332, guid: 1bc344f9dfc081c4390a19c4f6b79a0a,
+        type: 3}
+      propertyPath: cuttingRecipeSoList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 90131102e0fca6a449f2349340ec9904,
+        type: 2}
+    - target: {fileID: 6311245426650241332, guid: 1bc344f9dfc081c4390a19c4f6b79a0a,
+        type: 3}
+      propertyPath: cuttingRecipeSoList.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e17ce92fbc98f2439f11404ccdef595,
+        type: 2}
+    - target: {fileID: 4897168671699477757, guid: 3ebc88f6192e8b045b912ba0a1442746,
+        type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897168671699477757, guid: 3ebc88f6192e8b045b912ba0a1442746,
+        type: 3}
+      propertyPath: _kitchenObjectSo
+      value: 
+      objectReference: {fileID: 11400000, guid: e48599f8b9402b04fb33ff10d6088fe6,
+        type: 2}
+    - target: {fileID: 4897168671699477757, guid: 3ebc88f6192e8b045b912ba0a1442746,
+        type: 3}
+      propertyPath: secondClearCounter
+      value: 
+      objectReference: {fileID: 916703957}
+    - target: {fileID: 7563656286428043029, guid: a172ec972c98fc6448fe40fad511e858,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

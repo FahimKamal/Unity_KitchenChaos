@@ -14,8 +14,17 @@ namespace GameScripts
                 // There is not kitchenObject here.
                 if (player.HasKitchenObject())
                 {
-                    // Player is carrying something, give it to counter.
-                    player.GetKitchenObject().SetKitchenObjectParent(this);
+                    if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        // Player carrying something that can be cut.
+                        // Player is carrying something, give it to counter.
+                        player.GetKitchenObject().SetKitchenObjectParent(this);
+                    }
+                    else
+                    {
+                        Debug.Log("This kitchenObject can't be sliced.");
+                    }
+                    
                 }
                 else
                 {
@@ -39,9 +48,9 @@ namespace GameScripts
 
         public override void InteractAlternate(Player player)
         {
-            if (HasKitchenObject())
+            if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
             {
-                // There is a kitchenObject here. destroy it.
+                // There is a kitchenObject here and it can be cut. destroy it.
                 var outputKitchenObj = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
                 GetKitchenObject().DestroySelf();
 
@@ -49,6 +58,19 @@ namespace GameScripts
                 KitchenObject.SpawnKitchenObject(outputKitchenObj, this);
             }
         }
+        
+        private bool  HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSo)
+        {
+            foreach (var recipe in cuttingRecipeSoList)
+            {
+                if (recipe.input == inputKitchenObjectSo)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSo)
         {
