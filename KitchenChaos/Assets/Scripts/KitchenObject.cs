@@ -40,6 +40,12 @@ namespace GameScripts
             Destroy(gameObject);
         }
 
+        /// <summary>
+        /// Spawn kitchen objects on demand. 
+        /// </summary>
+        /// <param name="kitchenObjectSo">The object to spawn</param>
+        /// <param name="kitchenObjectParent">parent of the object.</param>
+        /// <returns></returns>
         public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSo,
             IKitchenObjectParent kitchenObjectParent)
         {
