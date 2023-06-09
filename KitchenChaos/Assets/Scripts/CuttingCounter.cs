@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameScripts
 {
     public class CuttingCounter : BaseCounter
-    {
+    { 
+        [SerializeField] private KitchenObjectSO cutKitchenObjectSo;
+        
         public override void Interact(Player player)
         {
             if (!HasKitchenObject())
@@ -33,6 +36,15 @@ namespace GameScripts
                     // Player is not carrying anything. So give player the kitchenObject.
                     GetKitchenObject().SetKitchenObjectParent(player);
                 }
+            }
+        }
+
+        public override void InteractAlternate(Player player)
+        {
+            if (HasKitchenObject())
+            {
+                // There is a kitchenObject here. Cut it.
+                GetKitchenObject().DestroySelf();
             }
         }
     }

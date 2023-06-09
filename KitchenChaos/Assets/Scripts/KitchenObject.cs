@@ -33,5 +33,11 @@ namespace GameScripts
         }
 
         public KitchenObjectSO GetKitchenObjectSO() => kitchenObjectSO;
+
+        public void DestroySelf()
+        {
+            kitchenObjectParent.ClearKitchenObject();
+            Destroy(gameObject);
+        }
     }
 }

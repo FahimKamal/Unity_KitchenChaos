@@ -38,6 +38,15 @@ namespace GameScripts
         private void Start()
         {
             gameInput.OnInteractAction += GameInputOnInteractAction;
+            gameInput.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
+        }
+
+        private void GameInputOnInteractAlternateAction(object sender, EventArgs e)
+        {
+            if (_selectedCounter  != null)
+            {
+                _selectedCounter.InteractAlternate(this);
+            }
         }
 
         private void GameInputOnInteractAction(object sender, EventArgs e)

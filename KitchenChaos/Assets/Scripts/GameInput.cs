@@ -7,6 +7,7 @@ namespace GameScripts
     public class GameInput : MonoBehaviour
     {
         public event EventHandler OnInteractAction; 
+        public event EventHandler OnInteractAlternateAction; 
 
         private PlayerInputActions _playerInputActions;
         private void Awake()
@@ -15,6 +16,12 @@ namespace GameScripts
             _playerInputActions.Player.Enable();
             
             _playerInputActions.Player.Interact.performed += InteractPerformed;
+            _playerInputActions.Player.InteractAlternate.performed += InteractAlternatePerformed;
+        }
+
+        private void InteractAlternatePerformed(InputAction.CallbackContext obj)
+        {
+            OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
         }
 
         private void InteractPerformed(InputAction.CallbackContext obj)

@@ -46,6 +46,15 @@ namespace GameScripts
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InteractAlternate"",
+                    ""type"": ""Button"",
+                    ""id"": ""0673c4ca-6b69-4b7c-8a81-4fe8eacff4e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -180,6 +189,17 @@ namespace GameScripts
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""461c3b0f-6b89-4c8f-b443-ee3e2eda9658"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractAlternate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -190,6 +210,7 @@ namespace GameScripts
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+            m_Player_InteractAlternate = m_Player.FindAction("InteractAlternate", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -253,12 +274,14 @@ namespace GameScripts
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Interact;
+        private readonly InputAction m_Player_InteractAlternate;
         public struct PlayerActions
         {
             private @PlayerInputActions m_Wrapper;
             public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Interact => m_Wrapper.m_Player_Interact;
+            public InputAction @InteractAlternate => m_Wrapper.m_Player_InteractAlternate;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -274,6 +297,9 @@ namespace GameScripts
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @InteractAlternate.started += instance.OnInteractAlternate;
+                @InteractAlternate.performed += instance.OnInteractAlternate;
+                @InteractAlternate.canceled += instance.OnInteractAlternate;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -284,6 +310,9 @@ namespace GameScripts
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @InteractAlternate.started -= instance.OnInteractAlternate;
+                @InteractAlternate.performed -= instance.OnInteractAlternate;
+                @InteractAlternate.canceled -= instance.OnInteractAlternate;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -305,6 +334,7 @@ namespace GameScripts
         {
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+            void OnInteractAlternate(InputAction.CallbackContext context);
         }
     }
 }
