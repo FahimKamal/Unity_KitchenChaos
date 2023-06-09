@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57de6e72dda501e4d84cb58717ddc837, type: 3}
   m_Name: Cheese-CheeseSlices
   m_EditorClassIdentifier: 
+  recipeName: Cheese Slice
   input: {fileID: 11400000, guid: 525da7c849269084b82d5e80716d920a, type: 2}
   output: {fileID: 11400000, guid: 614d70ad8f89c6f479023bf0ea860b28, type: 2}

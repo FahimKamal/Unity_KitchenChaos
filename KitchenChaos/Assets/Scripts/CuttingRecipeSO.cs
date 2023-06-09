@@ -7,7 +7,10 @@ namespace GameScripts
     [CreateAssetMenu()]
     public class CuttingRecipeSO : ScriptableObject
     {
+        public string recipeName;
         public KitchenObjectSO input;
         public KitchenObjectSO output;
+        
+        
     }
 }

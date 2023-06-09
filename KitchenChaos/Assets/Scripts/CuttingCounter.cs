@@ -42,11 +42,24 @@ namespace GameScripts
             if (HasKitchenObject())
             {
                 // There is a kitchenObject here. destroy it.
+                var outputKitchenObj = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
                 GetKitchenObject().DestroySelf();
 
                 // Instantiate sliced version of that object.
-                // KitchenObject.SpawnKitchenObject(cutKitchenObjectSo, this);
+                KitchenObject.SpawnKitchenObject(outputKitchenObj, this);
             }
+        }
+
+        private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSo)
+        {
+            foreach (var recipe in cuttingRecipeSoList)
+            {
+                if (recipe.input == inputKitchenObjectSo)
+                {
+                    return recipe.output;
+                }
+            }
+            return  null;
         }
     }
 }
