@@ -1,10 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameScripts
 {
     public class CuttingCounter : BaseCounter
-    { 
+    {
+        public event EventHandler<OnProgressChangedEventArgs> OnProgressChanged;
+        public event EventHandler OnCut;
+        public class OnProgressChangedEventArgs : EventArgs
+        {
+            public float ProgressNormalized;
+        }
         [SerializeField] private List<CuttingRecipeSO> cuttingRecipeSoList;
 
         private int _cuttingProgress;
@@ -21,6 +28,13 @@ namespace GameScripts
                         // Player carrying something that can be cut. give it to counter.
                         player.GetKitchenObject().SetKitchenObjectParent(this);
                         _cuttingProgress = 0;
+
+                        var cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+                        
+                        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                        {
+                            ProgressNormalized = (float) _cuttingProgress / cuttingRecipeSO.cuttingProgressMax
+                        });
                     }
                     else
                     {
@@ -54,7 +68,15 @@ namespace GameScripts
                 // There is a kitchenObject here and it can be cut. destroy it.
                 _cuttingProgress++;
                 
+                OnCut?.Invoke(this, EventArgs.Empty);
+                
                 var cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+                
+                OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                {
+                    ProgressNormalized = (float) _cuttingProgress / cuttingRecipeSO.cuttingProgressMax
+                });
+                
                 if (_cuttingProgress >= cuttingRecipeSO.cuttingProgressMax)
                 {
                     var outputKitchenObj = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
