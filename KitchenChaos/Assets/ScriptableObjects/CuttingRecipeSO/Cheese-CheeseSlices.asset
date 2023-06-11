@@ -15,3 +15,4 @@ MonoBehaviour:
   recipeName: Cheese Slice
   input: {fileID: 11400000, guid: 525da7c849269084b82d5e80716d920a, type: 2}
   output: {fileID: 11400000, guid: 614d70ad8f89c6f479023bf0ea860b28, type: 2}
+  cuttingProgressMax: 3

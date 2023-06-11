@@ -15,3 +15,4 @@ MonoBehaviour:
   recipeName: Cabbage Slice
   input: {fileID: 11400000, guid: c99135fd8a765ba4abf782f53ae7ac14, type: 2}
   output: {fileID: 11400000, guid: d4411776d942647499e5343547d42126, type: 2}
+  cuttingProgressMax: 5

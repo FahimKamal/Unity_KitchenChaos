@@ -10,7 +10,8 @@ namespace GameScripts
         public string recipeName;
         public KitchenObjectSO input;
         public KitchenObjectSO output;
-        
-        
+        public int cuttingProgressMax;
+
+
     }
 }

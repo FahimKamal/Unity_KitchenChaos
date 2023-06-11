@@ -6,7 +6,9 @@ namespace GameScripts
     public class CuttingCounter : BaseCounter
     { 
         [SerializeField] private List<CuttingRecipeSO> cuttingRecipeSoList;
-        
+
+        private int _cuttingProgress;
+
         public override void Interact(Player player)
         {
             if (!HasKitchenObject())
@@ -16,15 +18,14 @@ namespace GameScripts
                 {
                     if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
                     {
-                        // Player carrying something that can be cut.
-                        // Player is carrying something, give it to counter.
+                        // Player carrying something that can be cut. give it to counter.
                         player.GetKitchenObject().SetKitchenObjectParent(this);
+                        _cuttingProgress = 0;
                     }
                     else
                     {
                         Debug.Log("This kitchenObject can't be sliced.");
                     }
-                    
                 }
                 else
                 {
@@ -51,34 +52,40 @@ namespace GameScripts
             if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
             {
                 // There is a kitchenObject here and it can be cut. destroy it.
-                var outputKitchenObj = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
-                GetKitchenObject().DestroySelf();
+                _cuttingProgress++;
+                
+                var cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+                if (_cuttingProgress >= cuttingRecipeSO.cuttingProgressMax)
+                {
+                    var outputKitchenObj = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
+                    GetKitchenObject().DestroySelf();
 
-                // Instantiate sliced version of that object.
-                KitchenObject.SpawnKitchenObject(outputKitchenObj, this);
+                    // Instantiate sliced version of that object.
+                    KitchenObject.SpawnKitchenObject(outputKitchenObj, this);
+                }
             }
         }
         
         private bool  HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSo)
         {
-            foreach (var recipe in cuttingRecipeSoList)
-            {
-                if (recipe.input == inputKitchenObjectSo)
-                {
-                    return true;
-                }
-            }
-            return false;
+            var cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSo);
+            return  cuttingRecipeSO != null;
         }
 
 
         private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSo)
         {
+            var cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSo);
+            return cuttingRecipeSO != null ? cuttingRecipeSO.output : null;
+        }
+
+        private CuttingRecipeSO GetCuttingRecipeSOWithInput(KitchenObjectSO  inputKitchenObjectSo)
+        {
             foreach (var recipe in cuttingRecipeSoList)
             {
                 if (recipe.input == inputKitchenObjectSo)
                 {
-                    return recipe.output;
+                    return recipe;
                 }
             }
             return  null;
