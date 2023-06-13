@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 7243284308943872608, guid: db1b679cd52601a4d8539c97d09239b8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7243284308943872608, guid: db1b679cd52601a4d8539c97d09239b8,
         type: 3}
@@ -128,6 +128,8 @@ MonoBehaviour:
   counterTopPoint: {fileID: 2727755928628933608}
   _fryingRecipeSOList:
   - {fileID: 11400000, guid: 69663b5dad458b74db7f02d29a37bbfa, type: 2}
+  burningRecipeSOList:
+  - {fileID: 11400000, guid: e755d212def7e624ea32e5346c9a44fe, type: 2}
 --- !u!1001 &4858565441278186841
 PrefabInstance:
   m_ObjectHideFlags: 0

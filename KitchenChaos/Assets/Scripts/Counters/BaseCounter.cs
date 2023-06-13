@@ -20,7 +20,7 @@ namespace GameScripts
 
         public virtual void InteractAlternate(Player player)
         {
-            Debug.LogError("BaseCounter.InteractAlternate(); must be implemented.");
+            // Debug.LogError("BaseCounter.InteractAlternate(); must be implemented.");
         }
 
         public Transform GetKitchenObjectFollowTransform()

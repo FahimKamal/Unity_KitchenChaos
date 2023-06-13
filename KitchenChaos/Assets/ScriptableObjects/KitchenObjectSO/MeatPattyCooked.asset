@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3065965405545984680288c21b5d9903, type: 3}
   m_Name: MeatPattyCooked
   m_EditorClassIdentifier: 
-  kitchenObjectPrefab: {fileID: 4167499668966173309, guid: d5ed56d7d1ba81841bcce6ee08157d18,
+  kitchenObjectPrefab: {fileID: 4167499668966173309, guid: 4d2e78b6fd124a44e81671cb48c41ad7,
     type: 3}
   kitchenObjectIcon: {fileID: 21300000, guid: f1f50c7ef90b19741b26f2040806cf56, type: 3}
   kitchenObjectName: Meat Patty Cooked
