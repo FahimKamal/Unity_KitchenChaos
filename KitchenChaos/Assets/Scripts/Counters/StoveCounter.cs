@@ -7,7 +7,14 @@ namespace GameScripts
 {
     public class StoveCounter : BaseCounter
     {
-        private enum State
+        public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+        
+        public class OnStateChangedEventArgs: EventArgs
+        {
+            public State state;
+        }
+        
+        public enum State
         {
             Idle,
             Frying,
@@ -50,6 +57,8 @@ namespace GameScripts
                             _burningTimer = 0f;
                             _burningRecipeSO = GetBurningRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
                             _state = State.Fried;
+                            
+                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
                         }
                         break;
                     case State.Fried:
@@ -63,6 +72,7 @@ namespace GameScripts
 
                             KitchenObject.SpawnKitchenObject(_burningRecipeSO.output, this);
                             _state = State.Burned;
+                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
                         }
                         break;
                     case State.Burned:
@@ -85,7 +95,7 @@ namespace GameScripts
         {
             if (!HasKitchenObject())
             {
-                // There is not kitchenObject here.
+                // There is no kitchenObject here.
                 if (player.HasKitchenObject())
                 {
                     if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
@@ -96,6 +106,8 @@ namespace GameScripts
                         // StartCoroutine(FryMeat(_fryingRecipeSO.fryingTimerMax));
                         _state = State.Frying;
                         _fryingTimer = 0f;
+                        
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
                     }
                     else
                     {
@@ -104,7 +116,8 @@ namespace GameScripts
                 }
                 else
                 {
-                    Debug.Log("Player not carrying anything.");
+                    Debug.Log("Player not carrying anything. Also counter has no object either.");
+                    
                 }
             }
             else
@@ -119,6 +132,7 @@ namespace GameScripts
                     // Player is not carrying anything. So give player the kitchenObject.
                     GetKitchenObject().SetKitchenObjectParent(player);
                     _state = State.Idle;
+                    OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
                 }
             }
         }
