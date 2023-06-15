@@ -9,17 +9,25 @@ namespace GameScripts
 {
     public class ProgressBarUI : MonoBehaviour
     {
-        [SerializeField] private CuttingCounter cuttingCounter;
+        [SerializeField] private GameObject hasProgressBarObject;
         [SerializeField] private Image barImage;
 
+        private IHasProgress _hasProgressBar;
         private void Start()
         {
-            cuttingCounter.OnProgressChanged += cuttingCounter_OnProgressChanged;
+            _hasProgressBar = hasProgressBarObject.GetComponent<IHasProgress>();
+
+            if (_hasProgressBar == null)
+            {
+                throw new NullReferenceException("GameObject :" + hasProgressBarObject + "doesn't have a component that implements IHasProgress!");
+            }
+            
+            _hasProgressBar.OnProgressChanged += hasProgress_OnProgressChanged;
             barImage.fillAmount = 0f;
             Hide();
         }
 
-        private void cuttingCounter_OnProgressChanged(object sender, CuttingCounter.OnProgressChangedEventArgs e)
+        private void hasProgress_OnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
         {
             barImage.fillAmount = e.ProgressNormalized;
             if (e.ProgressNormalized == 0f || e.ProgressNormalized == 1f)

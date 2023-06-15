@@ -5,8 +5,9 @@ using UnityEngine;
 
 namespace GameScripts
 {
-    public class StoveCounter : BaseCounter
+    public class StoveCounter : BaseCounter, IHasProgress
     {
+        public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
         public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
         
         public class OnStateChangedEventArgs: EventArgs
@@ -46,6 +47,11 @@ namespace GameScripts
                         break;
                     case State.Frying:
                         _fryingTimer += Time.deltaTime;
+                        
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                        {
+                            ProgressNormalized = _fryingTimer / _fryingRecipeSO.fryingTimerMax
+                        });
 
                         if (_fryingTimer > _fryingRecipeSO.fryingTimerMax)
                         {
@@ -63,6 +69,11 @@ namespace GameScripts
                         break;
                     case State.Fried:
                         _burningTimer += Time.deltaTime;
+                        
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                        {
+                            ProgressNormalized = _burningTimer / _burningRecipeSO.burningTimerMax
+                        });
 
                         if (_burningTimer > _burningRecipeSO.burningTimerMax)
                         {
@@ -73,6 +84,11 @@ namespace GameScripts
                             KitchenObject.SpawnKitchenObject(_burningRecipeSO.output, this);
                             _state = State.Burned;
                             OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
+                            
+                            OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                            {
+                                ProgressNormalized = 0.0f
+                            });
                         }
                         break;
                     case State.Burned:
@@ -103,9 +119,14 @@ namespace GameScripts
                         // Player carrying something that can be cut. give it to counter.
                         player.GetKitchenObject().SetKitchenObjectParent(this);
                         _fryingRecipeSO = GetFryingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
-                        // StartCoroutine(FryMeat(_fryingRecipeSO.fryingTimerMax));
+                        
                         _state = State.Frying;
                         _fryingTimer = 0f;
+                        
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                        {
+                            ProgressNormalized = _fryingTimer / _fryingRecipeSO.fryingTimerMax
+                        });
                         
                         OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
                     }
@@ -133,6 +154,11 @@ namespace GameScripts
                     GetKitchenObject().SetKitchenObjectParent(player);
                     _state = State.Idle;
                     OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
+                    
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                    {
+                        ProgressNormalized = 0.0f
+                    });
                 }
             }
         }
@@ -177,5 +203,7 @@ namespace GameScripts
             return null;
 
         }
+
+        
     }
 }
