@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +39,11 @@ namespace GameScripts
                 OnIngredientAdded?.Invoke(this, new OnIngredientAddedEventArgs() { kitchenObjectSO = kitchenObjectSO });
                 return true;
             }
+        }
+
+        public List<KitchenObjectSO> GetKitchenObjectSOList()
+        {
+            return _kitchenObjectSOList;
         }
     }
 }
