@@ -25,7 +25,16 @@ namespace GameScripts
                 // There is a kitchenObject here.
                 if (player.HasKitchenObject())
                 {
-                    Debug.Log("Player carrying something. Can't grab the item now.");
+                    // Player is carrying something.
+                    if (player.GetKitchenObject().TryGetPlate(out var plateKitchenObject))
+                    {
+                        // player is carrying plate.
+                        // Give the kitchenObject to player.
+                        if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                        {
+                            GetKitchenObject().DestroySelf();
+                        }
+                    }
                 }
                 else
                 {

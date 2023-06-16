@@ -143,10 +143,26 @@ namespace GameScripts
             }
             else
             {
-                // There is a kitchenObject here.
+                // There is a kitchenObject on player.
                 if (player.HasKitchenObject())
                 {
-                    Debug.Log("Player carrying something. Can't grab the item now.");
+                    if (player.GetKitchenObject().TryGetPlate(out var plateKitchenObject))
+                    {
+                        // player is carrying plate.
+                        // Give the kitchenObject to player.
+                        if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                        {
+                            GetKitchenObject().DestroySelf();
+                            
+                            _state = State.Idle;
+                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs{state = _state});
+                    
+                            OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                            {
+                                ProgressNormalized = 0.0f
+                            });
+                        }
+                    }
                 }
                 else
                 {
