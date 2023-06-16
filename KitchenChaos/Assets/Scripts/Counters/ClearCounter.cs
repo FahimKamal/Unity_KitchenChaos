@@ -22,7 +22,7 @@ namespace GameScripts
             }
             else
             {
-                // There is a kitchenObject here.
+                // There is a kitchenObject on player.
                 if (player.HasKitchenObject())
                 {
                     // Player is carrying something.
@@ -33,6 +33,19 @@ namespace GameScripts
                         if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                         {
                             GetKitchenObject().DestroySelf();
+                        }
+                    }
+                    else
+                    {
+                        // Player is not carrying plate but other object.
+                        if (GetKitchenObject().TryGetPlate(out var plate))
+                        {
+                            // Counter is holding a plate
+                            if (plate.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                            {
+                                // Give object to plate and destroy object on player.
+                                player.GetKitchenObject().DestroySelf();
+                            }
                         }
                     }
                 }
