@@ -35,5 +35,13 @@ namespace GameScripts
                 }
             }
         }
+
+        public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
+        {
+            if (waitingRecipeSOList.Contains(plateKitchenObject.))
+            {
+                
+            }
+        }
     }
 }
