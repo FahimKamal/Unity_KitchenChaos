@@ -15,15 +15,15 @@ namespace GameScripts
         
         [SerializeField] private RecipeListSO recipeList;
         
-        private List<RecipeSO> waitingRecipeSOList;
+        private List<RecipeSO> _waitingRecipeSoList;
         private float _spawnRecipeTimer;
-        private float _spawnRecipeTimerMax = 4f;
-        private int waitingRecipesMax = 4;
+        private readonly float _spawnRecipeTimerMax = 4f;
+        private readonly int _waitingRecipesMax = 4;
 
         private void Awake()
         {
             Instance = this;
-            waitingRecipeSOList = new List<RecipeSO>();
+            _waitingRecipeSoList = new List<RecipeSO>();
         }
 
         private void Update()
@@ -33,10 +33,10 @@ namespace GameScripts
             {
                 _spawnRecipeTimer = _spawnRecipeTimerMax;
 
-                if (waitingRecipeSOList.Count < waitingRecipesMax)
+                if (_waitingRecipeSoList.Count < _waitingRecipesMax)
                 {
                     var waitingRecipeSO = recipeList.recipeSOList[Random.Range(0, recipeList.recipeSOList.Count)];
-                    waitingRecipeSOList.Add(waitingRecipeSO);
+                    _waitingRecipeSoList.Add(waitingRecipeSO);
                     
                     OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
                 }
@@ -45,9 +45,9 @@ namespace GameScripts
 
         public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
         {
-            for (int i = 0; i < waitingRecipeSOList.Count; i++)
+            for (int i = 0; i < _waitingRecipeSoList.Count; i++)
             {
-                var waitingRecipeSO = waitingRecipeSOList[i];
+                var waitingRecipeSO = _waitingRecipeSoList[i];
 
                 if (waitingRecipeSO.KitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
                 {
@@ -79,7 +79,7 @@ namespace GameScripts
                     {
                         // Player delivered the correct recipe!
                         Debug.Log("Delivered " + waitingRecipeSO.recipeName);
-                        waitingRecipeSOList.RemoveAt(i);
+                        _waitingRecipeSoList.RemoveAt(i);
                         
                         OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                         return;
@@ -94,7 +94,7 @@ namespace GameScripts
 
         public List<RecipeSO> GetWaitingRecipeSOList()
         {
-            return waitingRecipeSOList;
+            return _waitingRecipeSoList;
         }
     }
 }
