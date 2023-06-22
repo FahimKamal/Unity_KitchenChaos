@@ -7,6 +7,8 @@ namespace GameScripts
     {
         public static Player Instance { get; private set; }
 
+        public event EventHandler OnPickedSomething;
+
         private void Awake()
         {
             if (Instance != null)
@@ -176,6 +178,11 @@ namespace GameScripts
         public void SetKitchenObject(KitchenObject kitchenObject)
         {
             this._kitchenObject = kitchenObject;
+            if (_kitchenObject != null)
+            {
+                OnPickedSomething?.Invoke(this, EventArgs.Empty);
+                
+            }
         }
 
         public KitchenObject GetKitchenObject()

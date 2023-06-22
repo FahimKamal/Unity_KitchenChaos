@@ -12,6 +12,8 @@ namespace GameScripts
 
         public event EventHandler OnRecipeSpawned;
         public event EventHandler OnRecipeCompleted;
+        public event EventHandler OnRecipeSuccess;
+        public event EventHandler OnRecipeFailed;
         
         [SerializeField] private RecipeListSO recipeList;
         
@@ -82,6 +84,7 @@ namespace GameScripts
                         _waitingRecipeSoList.RemoveAt(i);
                         
                         OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                        OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
                         return;
                     }
                 }
@@ -89,6 +92,7 @@ namespace GameScripts
             
             // No Matches found.
             // Player did not delivered a correct recipe.
+            OnRecipeFailed?.Invoke(this, EventArgs.Empty);
             Debug.Log("Player did not delivered a correct recipe.");
         }
 

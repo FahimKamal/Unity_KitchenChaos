@@ -6,7 +6,8 @@ namespace GameScripts
 {
     public class CuttingCounter : BaseCounter, IHasProgress
     {
-        public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
+        public static event EventHandler OnAnyCut;
+            public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
         public event EventHandler OnCut;
         [SerializeField] private List<CuttingRecipeSO> cuttingRecipeSoList;
 
@@ -72,7 +73,11 @@ namespace GameScripts
                 // There is a kitchenObject here and it can be cut. destroy it.
                 _cuttingProgress++;
                 
+                // For visual
                 OnCut?.Invoke(this, EventArgs.Empty);
+                
+                // For sound
+                OnAnyCut?.Invoke(this, EventArgs.Empty);
                 
                 var cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
                 
