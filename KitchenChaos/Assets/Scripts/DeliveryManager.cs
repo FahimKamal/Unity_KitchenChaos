@@ -9,6 +9,9 @@ namespace GameScripts
     public class DeliveryManager : MonoBehaviour
     {
         public static DeliveryManager Instance { get; private set; }
+
+        public event EventHandler OnRecipeSpawned;
+        public event EventHandler OnRecipeCompleted;
         
         [SerializeField] private RecipeListSO recipeList;
         
@@ -33,8 +36,9 @@ namespace GameScripts
                 if (waitingRecipeSOList.Count < waitingRecipesMax)
                 {
                     var waitingRecipeSO = recipeList.recipeSOList[Random.Range(0, recipeList.recipeSOList.Count)];
-                    Debug.Log(waitingRecipeSO.recipeName);
                     waitingRecipeSOList.Add(waitingRecipeSO);
+                    
+                    OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -76,6 +80,8 @@ namespace GameScripts
                         // Player delivered the correct recipe!
                         Debug.Log("Delivered " + waitingRecipeSO.recipeName);
                         waitingRecipeSOList.RemoveAt(i);
+                        
+                        OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                         return;
                     }
                 }
@@ -84,6 +90,11 @@ namespace GameScripts
             // No Matches found.
             // Player did not delivered a correct recipe.
             Debug.Log("Player did not delivered a correct recipe.");
+        }
+
+        public List<RecipeSO> GetWaitingRecipeSOList()
+        {
+            return waitingRecipeSOList;
         }
     }
 }
