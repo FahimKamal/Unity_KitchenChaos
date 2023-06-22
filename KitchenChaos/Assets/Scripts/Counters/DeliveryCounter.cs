@@ -11,6 +11,8 @@ namespace GameScripts
             if (player.GetKitchenObject().TryGetPlate(out var plateKitchenObject))
             {
                 // If player is carrying anything with plate accepts it
+                
+                DeliveryManager.Instance.DeliveryRecipe(plateKitchenObject);
                 player.GetKitchenObject().DestroySelf();
             }
         }

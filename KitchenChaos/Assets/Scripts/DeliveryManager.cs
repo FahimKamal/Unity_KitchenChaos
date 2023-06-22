@@ -8,6 +8,8 @@ namespace GameScripts
 {
     public class DeliveryManager : MonoBehaviour
     {
+        public static DeliveryManager Instance { get; private set; }
+        
         [SerializeField] private RecipeListSO recipeList;
         
         private List<RecipeSO> waitingRecipeSOList;
@@ -17,6 +19,7 @@ namespace GameScripts
 
         private void Awake()
         {
+            Instance = this;
             waitingRecipeSOList = new List<RecipeSO>();
         }
 
@@ -38,10 +41,49 @@ namespace GameScripts
 
         public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
         {
-            if (waitingRecipeSOList.Contains(plateKitchenObject.))
+            for (int i = 0; i < waitingRecipeSOList.Count; i++)
             {
-                
+                var waitingRecipeSO = waitingRecipeSOList[i];
+
+                if (waitingRecipeSO.KitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
+                {
+                    var plateContentsMatchesRecipe = true;
+                    // has the same number of ingredients
+                    foreach (var recipeKitchenObjectSO in waitingRecipeSO.KitchenObjectSOList)
+                    {
+                        var ingredientFound = false;
+                        // Cycling through all ingredients in the recipe
+                        foreach (var plateKitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
+                        {
+                            // Cycling through all ingredients in the plate
+                            if (plateKitchenObjectSO == recipeKitchenObjectSO)
+                            {
+                                // Ingredient matches!
+                                ingredientFound = true;
+                                break;
+                            }
+                        }
+
+                        if (!ingredientFound)
+                        {
+                            // This recipe ingredient was not found on the plate
+                            plateContentsMatchesRecipe = false;
+                        }
+                    }
+
+                    if (plateContentsMatchesRecipe)
+                    {
+                        // Player delivered the correct recipe!
+                        Debug.Log("Delivered " + waitingRecipeSO.recipeName);
+                        waitingRecipeSOList.RemoveAt(i);
+                        return;
+                    }
+                }
             }
+            
+            // No Matches found.
+            // Player did not delivered a correct recipe.
+            Debug.Log("Player did not delivered a correct recipe.");
         }
     }
 }
