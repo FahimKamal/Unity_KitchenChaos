@@ -19,6 +19,8 @@ namespace GameScripts
             quitButton.onClick.AddListener(() => {
                 Application.Quit();
             });
+            
+            Time.timeScale = 1;
         }
     }
 }
