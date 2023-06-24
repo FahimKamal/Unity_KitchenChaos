@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameScripts
-{
-    public interface IKitchenObjectParent
-    {
+namespace GameScripts {
+    public interface IKitchenObjectParent {
         /// <summary>
         /// Get the location of the kitchenObject hold Point.
         /// </summary>

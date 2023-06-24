@@ -3,26 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameScripts
-{
-    public class LookAtCamera : MonoBehaviour
-    {
-        private enum Mode
-        {
+namespace GameScripts {
+    public class LookAtCamera : MonoBehaviour {
+        private enum Mode {
             LookAt,
             LootAtInverted,
             CameraForward,
             CameraForwardInverted
         }
+
         [SerializeField] private Mode mode;
-        private void LateUpdate()
-        {
-            switch (mode)
-            {
+
+        private void LateUpdate(){
+            switch (mode){
                 case Mode.LookAt:
                     transform.LookAt(Camera.main.transform);
                     break;
-                case  Mode.LootAtInverted:
+                case Mode.LootAtInverted:
                     var dirFromCamera = transform.position - Camera.main.transform.position;
                     transform.LookAt(transform.position + dirFromCamera);
                     break;
@@ -34,7 +31,6 @@ namespace GameScripts
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-                    
             }
         }
     }

@@ -1,18 +1,14 @@
 using System;
 using UnityEngine;
 
-namespace GameScripts
-{
-    public class Player : MonoBehaviour, IKitchenObjectParent
-    {
-        public static Player Instance { get; private set; }
+namespace GameScripts {
+    public class Player : MonoBehaviour, IKitchenObjectParent {
+        public static Player Instance{ get; private set; }
 
         public event EventHandler OnPickedSomething;
 
-        private void Awake()
-        {
-            if (Instance != null)
-            {
+        private void Awake(){
+            if (Instance != null){
                 Debug.Log("There is more than one Player instance.");
             }
 
@@ -21,8 +17,7 @@ namespace GameScripts
 
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
-        public class OnSelectedCounterChangedEventArgs : EventArgs
-        {
+        public class OnSelectedCounterChangedEventArgs : EventArgs {
             public BaseCounter SelectedCounter;
         }
 
@@ -37,82 +32,66 @@ namespace GameScripts
         private BaseCounter _selectedCounter;
         private KitchenObject _kitchenObject;
 
-        private void Start()
-        {
+        private void Start(){
             gameInput.OnInteractAction += GameInputOnInteractAction;
             gameInput.OnInteractAlternateAction += GameInputOnInteractAlternateAction;
         }
 
-        private void GameInputOnInteractAlternateAction(object sender, EventArgs e)
-        {
-            if (_selectedCounter  != null)
-            {
+        private void GameInputOnInteractAlternateAction(object sender, EventArgs e){
+            if (_selectedCounter != null){
                 _selectedCounter.InteractAlternate(this);
             }
         }
 
-        private void GameInputOnInteractAction(object sender, EventArgs e)
-        {
-            if (_selectedCounter != null)
-            {
+        private void GameInputOnInteractAction(object sender, EventArgs e){
+            if (_selectedCounter != null){
                 _selectedCounter.Interact(this);
             }
         }
 
-        private void Update()
-        {
+        private void Update(){
             HandleMovement();
 
             HandleInteractions();
         }
 
-        public bool IsWalking()
-        {
+        public bool IsWalking(){
             return _isWalking;
         }
 
-        private void HandleInteractions()
-        {
+        private void HandleInteractions(){
             var inputVector = gameInput.GetMovementVectorNormalized();
             var moveDir = new Vector3(inputVector.x, 0.0f, inputVector.y);
 
-            if (moveDir != Vector3.zero)
-            {
+            if (moveDir != Vector3.zero){
                 _lastInteractDir = moveDir;
             }
 
             var interactDistance = 2.0f;
 
             if (Physics.Raycast(transform.position, _lastInteractDir, out var raycastHit, interactDistance,
-                    counterLayerMask))
-            {
-                if (raycastHit.transform.TryGetComponent(out BaseCounter clearCounter))
-                {
-                    if (clearCounter != _selectedCounter)
-                    {
+                    counterLayerMask)){
+                if (raycastHit.transform.TryGetComponent(out BaseCounter clearCounter)){
+                    if (clearCounter != _selectedCounter){
                         SetSelectedCounter(clearCounter);
                     }
                 }
-                else
-                {
+                else{
                     SetSelectedCounter(null);
                 }
             }
-            else
-            {
+            else{
                 SetSelectedCounter(null);
             }
         }
 
-        private void SetSelectedCounter(BaseCounter selectedCounter)
-        {
+        private void SetSelectedCounter(BaseCounter selectedCounter){
             _selectedCounter = selectedCounter;
             OnSelectedCounterChanged?.Invoke(this,
-                new OnSelectedCounterChangedEventArgs { SelectedCounter = _selectedCounter });
+                new OnSelectedCounterChangedEventArgs{ SelectedCounter = _selectedCounter });
         }
 
-        private void HandleMovement()
-        {
+        private void HandleMovement(){
             var inputVector = gameInput.GetMovementVectorNormalized();
             var moveDir = new Vector3(inputVector.x, 0.0f, inputVector.y);
 
@@ -126,15 +105,14 @@ namespace GameScripts
             var canMove = !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,
                 moveDir, moveDistance);
 
-            if (!canMove)
-            {
+            if (!canMove){
                 // cannot move towards moveDir
                 // Attempt only X movement
                 var moveDirX = new Vector3(moveDir.x, 0.0f, 0.0f).normalized;
-                canMove = moveDir.x != 0 && !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight, playerRadius,
+                canMove = moveDir.x != 0 && !Physics.CapsuleCast(playerPosition,
+                    playerPosition + Vector3.up * playerHeight, playerRadius,
                     moveDirX, moveDistance);
-                if (canMove)
-                {
+                if (canMove){
                     // can only move on the X
                     moveDir = moveDirX;
                 }
@@ -142,15 +120,14 @@ namespace GameScripts
                 {
                     // Attempt only Z movement
                     var moveDirZ = new Vector3(0.0f, 0.0f, moveDir.z).normalized;
-                    canMove =moveDir.z != 0 && !Physics.CapsuleCast(playerPosition, playerPosition + Vector3.up * playerHeight,
+                    canMove = moveDir.z != 0 && !Physics.CapsuleCast(playerPosition,
+                        playerPosition + Vector3.up * playerHeight,
                         playerRadius, moveDirZ, moveDistance);
-                    if (canMove)
-                    {
+                    if (canMove){
                         // can only move on the Z
                         moveDir = moveDirZ;
                     }
-                    else
-                    {
+                    else{
                         // cannot move any direction.
                     }
                 }
@@ -158,8 +135,7 @@ namespace GameScripts
 
 
             // Move player
-            if (canMove)
-            {
+            if (canMove){
                 transform.position += moveDir * moveDistance;
             }
 
@@ -170,33 +146,26 @@ namespace GameScripts
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         }
 
-        public Transform GetKitchenObjectFollowTransform()
-        {
+        public Transform GetKitchenObjectFollowTransform(){
             return kitchenObjectHoldPoint;
         }
 
-        public void SetKitchenObject(KitchenObject kitchenObject)
-        {
+        public void SetKitchenObject(KitchenObject kitchenObject){
             this._kitchenObject = kitchenObject;
-            if (_kitchenObject != null)
-            {
+            if (_kitchenObject != null){
                 OnPickedSomething?.Invoke(this, EventArgs.Empty);
-                
             }
         }
 
-        public KitchenObject GetKitchenObject()
-        {
+        public KitchenObject GetKitchenObject(){
             return _kitchenObject;
         }
 
-        public void ClearKitchenObject()
-        {
+        public void ClearKitchenObject(){
             _kitchenObject = null;
         }
 
-        public bool HasKitchenObject()
-        {
+        public bool HasKitchenObject(){
             return _kitchenObject != null;
         }
     }

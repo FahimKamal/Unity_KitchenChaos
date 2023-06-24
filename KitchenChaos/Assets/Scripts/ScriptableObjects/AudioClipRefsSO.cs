@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameScripts
-{
+namespace GameScripts {
     [CreateAssetMenu]
-    public class AudioClipRefsSO : ScriptableObject
-    {
+    public class AudioClipRefsSO : ScriptableObject {
         public List<AudioClip> chop;
         public List<AudioClip> deliveryFail;
         public List<AudioClip> deliverySuccess;

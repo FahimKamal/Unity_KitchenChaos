@@ -1,12 +1,10 @@
 using System;
 using UnityEngine;
 
-namespace GameScripts
-{
-    public class BaseCounter : MonoBehaviour, IKitchenObjectParent
-    {
+namespace GameScripts {
+    public class BaseCounter : MonoBehaviour, IKitchenObjectParent {
         public static event EventHandler OnAnyObjectPlacedHere;
-        
+
         [SerializeField] private Transform counterTopPoint;
 
         /// <summary>
@@ -14,43 +12,35 @@ namespace GameScripts
         /// </summary>
         private KitchenObject _kitchenObject;
 
-        public virtual void Interact(Player player)
-        {
+        public virtual void Interact(Player player){
             Debug.LogError("BaseCounter.Interact(); must be implemented.");
         }
 
-        public virtual void InteractAlternate(Player player)
-        {
+        public virtual void InteractAlternate(Player player){
             // Debug.LogError("BaseCounter.InteractAlternate(); must be implemented.");
         }
 
-        public Transform GetKitchenObjectFollowTransform()
-        {
+        public Transform GetKitchenObjectFollowTransform(){
             return counterTopPoint;
         }
 
-        public void SetKitchenObject(KitchenObject kitchenObject)
-        {
+        public void SetKitchenObject(KitchenObject kitchenObject){
             this._kitchenObject = kitchenObject;
 
-            if (_kitchenObject  != null)
-            {
+            if (_kitchenObject != null){
                 OnAnyObjectPlacedHere?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public KitchenObject GetKitchenObject()
-        {
+        public KitchenObject GetKitchenObject(){
             return _kitchenObject;
         }
 
-        public void ClearKitchenObject()
-        {
+        public void ClearKitchenObject(){
             _kitchenObject = null;
         }
 
-        public bool HasKitchenObject()
-        {
+        public bool HasKitchenObject(){
             return _kitchenObject != null;
         }
     }
