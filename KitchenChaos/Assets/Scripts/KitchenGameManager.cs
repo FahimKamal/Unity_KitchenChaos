@@ -7,6 +7,8 @@ namespace GameScripts {
     public class KitchenGameManager : MonoBehaviour {
         
         public static KitchenGameManager Instance{ get; private set; }
+
+        public event EventHandler OnStateChanged;
         
         private enum State {
             WaitingToStart,
@@ -18,7 +20,8 @@ namespace GameScripts {
         private State _state;
         private float _waitingToStartTimer = 1f;
         private float _countdownToStartTimer = 3f;
-        private float _gamePlayingTimer = 10f;
+        private float _gamePlayingTimer;
+        private readonly float _gamePlayingTimerMax = 10f;
 
 
         private void Awake(){
@@ -32,6 +35,7 @@ namespace GameScripts {
                     _waitingToStartTimer -= Time.deltaTime;
                     if (_waitingToStartTimer <= 0){
                         _state = State.CountdownToStart;
+                        OnStateChanged?.Invoke(this, EventArgs.Empty);
                     }
 
                     break;
@@ -39,6 +43,8 @@ namespace GameScripts {
                     _countdownToStartTimer -= Time.deltaTime;
                     if (_countdownToStartTimer <= 0){
                         _state = State.GamePlaying;
+                        _gamePlayingTimer = _gamePlayingTimerMax;
+                        OnStateChanged?.Invoke(this, EventArgs.Empty);
                     }
 
                     break;
@@ -46,6 +52,7 @@ namespace GameScripts {
                     _gamePlayingTimer -= Time.deltaTime;
                     if (_gamePlayingTimer <= 0){
                         _state = State.GameOver;
+                        OnStateChanged?.Invoke(this, EventArgs.Empty);
                     }
 
                     break;
@@ -58,5 +65,11 @@ namespace GameScripts {
         }
 
         public bool IsGamePlaying => _state is State.GamePlaying;
+        public bool IsCountdownToStartActive => _state is State.CountdownToStart;
+        public bool IsGameOver => _state is State.GameOver;
+
+        public float GetCountDownToStartTimer => _countdownToStartTimer;
+
+        public float GetGamePlayingTimerNormalized => 1 - (_gamePlayingTimer / _gamePlayingTimerMax);
     }
 }

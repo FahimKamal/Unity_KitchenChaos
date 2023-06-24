@@ -19,6 +19,7 @@ namespace GameScripts {
         private float _spawnRecipeTimer;
         private readonly float _spawnRecipeTimerMax = 4f;
         private readonly int _waitingRecipesMax = 4;
+        private int _successfulRecipesAmount;
 
         private void Awake(){
             Instance = this;
@@ -66,6 +67,7 @@ namespace GameScripts {
 
                     if (plateContentsMatchesRecipe){
                         // Player delivered the correct recipe!
+                        _successfulRecipesAmount++;
                         Debug.Log("Delivered " + waitingRecipeSO.recipeName);
                         _waitingRecipeSoList.RemoveAt(i);
 
@@ -85,5 +87,7 @@ namespace GameScripts {
         public List<RecipeSO> GetWaitingRecipeSOList(){
             return _waitingRecipeSoList;
         }
+
+        public int GetSuccessfulRecipesAmount => _successfulRecipesAmount;
     }
 }
