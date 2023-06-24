@@ -9,6 +9,13 @@ namespace GameScripts
 {
     public class SoundManager : MonoBehaviour
     {
+        public static SoundManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         [SerializeField] private AudioClipRefsSO audioClipRefsSO;
         
         private void Start()
@@ -64,6 +71,11 @@ namespace GameScripts
         private void PlaySound(AudioClip audioClip, Vector3 pos, float volume = 1f)
         {
             AudioSource.PlayClipAtPoint(audioClip, pos, volume);
+        }
+
+        public void PlayFootSepsSound(Vector3 pos, float vol)
+        {
+            PlaySound(audioClipRefsSO.footstep, pos, vol);
         }
     }
 }

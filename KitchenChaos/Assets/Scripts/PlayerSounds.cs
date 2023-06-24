@@ -7,10 +7,9 @@ namespace GameScripts
 {
     public class PlayerSounds : MonoBehaviour
     {
-        private Player _player;
-
         private float _footStepTimer;
         private float _footStepTimerMax = 0.1f;
+        private Player _player;
 
         private void Awake()
         {
@@ -24,6 +23,13 @@ namespace GameScripts
             if (_footStepTimer < 0f)
             {
                 _footStepTimer = _footStepTimerMax;
+
+                if (_player.IsWalking())
+                {
+                    var vol = 1.0f;
+                    SoundManager.Instance.PlayFootSepsSound(_player.transform.position, vol);
+                }
+                
             }
         }
     }

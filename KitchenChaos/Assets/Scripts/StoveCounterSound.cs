@@ -22,7 +22,7 @@ namespace GameScripts
 
         private void OnStoveCounter_StateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
         {
-            var playSound = e.state == StoveCounter.State.Fried || e.state == StoveCounter.State.Frying;
+            var playSound = e.state is StoveCounter.State.Fried or StoveCounter.State.Frying;
 
             if (playSound)
             {
