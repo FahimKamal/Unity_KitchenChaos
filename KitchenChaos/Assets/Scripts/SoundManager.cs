@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 namespace GameScripts {
     public class SoundManager : MonoBehaviour {
@@ -14,6 +11,8 @@ namespace GameScripts {
         }
 
         [SerializeField] private AudioClipRefsSO audioClipRefsSO;
+
+        private float _volume = 1.0f;
 
         private void Start(){
             DeliveryManager.Instance.OnRecipeSuccess += DeliveryManager_OnRecipeSuccess;
@@ -53,16 +52,23 @@ namespace GameScripts {
             PlaySound(audioClipRefsSO.deliverySuccess, deliveryCounter.transform.position);
         }
 
-        private void PlaySound(List<AudioClip> audioClipList, Vector3 pos, float volume = 1f){
-            PlaySound(audioClipList[UnityEngine.Random.Range(0, audioClipList.Count)], pos, volume);
+        private void PlaySound(List<AudioClip> audioClipList, Vector3 pos, float volumeMultiplier = 1f){
+            PlaySound(audioClipList[UnityEngine.Random.Range(0, audioClipList.Count)], pos, volumeMultiplier);
         }
 
-        private void PlaySound(AudioClip audioClip, Vector3 pos, float volume = 1f){
-            AudioSource.PlayClipAtPoint(audioClip, pos, volume);
+        private void PlaySound(AudioClip audioClip, Vector3 pos, float volumeMultiplier = 1f){
+            AudioSource.PlayClipAtPoint(audioClip, pos, volumeMultiplier * _volume);
         }
 
         public void PlayFootSepsSound(Vector3 pos, float vol){
             PlaySound(audioClipRefsSO.footstep, pos, vol);
         }
+
+        public void ChangeVolume(){
+            _volume += 0.1f;
+            if (_volume > 1.0f) _volume = 1.0f;
+        }
+
+        public float GetVolume => _volume;
     }
 }
