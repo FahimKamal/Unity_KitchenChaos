@@ -17,7 +17,10 @@ namespace GameScripts{
             MoveRight,
             Interact,
             InteractAlternate,
-            Pause
+            Pause,
+            GamePadInteract,
+            GamePadInteractAlternate,
+            GamePadPause
         }
 
         private PlayerInputActions _playerInputActions;
@@ -113,6 +116,14 @@ namespace GameScripts{
                     return _playerInputActions.Player.InteractAlternate.bindings[0].ToDisplayString();
                 case Binding.Pause:
                     return _playerInputActions.Player.Pause.bindings[0].ToDisplayString();
+                
+                // Bindings for Gamepad
+                case Binding.GamePadInteract:
+                    return _playerInputActions.Player.Interact.bindings[1].ToDisplayString();
+                case Binding.GamePadInteractAlternate:
+                    return _playerInputActions.Player.InteractAlternate.bindings[1].ToDisplayString();
+                case Binding.GamePadPause:
+                    return _playerInputActions.Player.Pause.bindings[1].ToDisplayString();
             }
         }
 
@@ -151,6 +162,20 @@ namespace GameScripts{
                 case Binding.Pause:
                     inputAction = _playerInputActions.Player.Pause;
                     bindingIndex = 0;
+                    break;
+                
+                // Bindings for Gamepad
+                case Binding.GamePadInteract:
+                    inputAction = _playerInputActions.Player.Interact;
+                    bindingIndex = 1;
+                    break;
+                case Binding.GamePadInteractAlternate:
+                    inputAction = _playerInputActions.Player.InteractAlternate;
+                    bindingIndex = 1;
+                    break;
+                case Binding.GamePadPause:
+                    inputAction = _playerInputActions.Player.Pause;
+                    bindingIndex = 1;
                     break;
             }
 

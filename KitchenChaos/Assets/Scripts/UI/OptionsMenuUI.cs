@@ -13,7 +13,11 @@ namespace GameScripts
         [SerializeField] private Button closeButton;
         [SerializeField] private TextMeshProUGUI soundEffectsText;
         [SerializeField] private TextMeshProUGUI musicText;
+        [SerializeField] private Transform pressToRebindKeyTrans;
 
+        [Space]
+        [Header("Key Bindings")]
+        [Space]
         #region Key Binding Section
 
         [SerializeField] private TextMeshProUGUI moveUpText;
@@ -23,7 +27,7 @@ namespace GameScripts
         [SerializeField] private TextMeshProUGUI interactText;
         [SerializeField] private TextMeshProUGUI interactAlternateText;
         [SerializeField] private TextMeshProUGUI pauseText;
-        
+        [Space]
         [SerializeField] private Button moveUpButton;
         [SerializeField] private Button moveDownButton;
         [SerializeField] private Button moveLeftButton;
@@ -31,13 +35,18 @@ namespace GameScripts
         [SerializeField] private Button interactButton;
         [SerializeField] private Button interactAlternateButton;
         [SerializeField] private Button pauseButton;
+        [Space]
+        [Header("Gamepad Key Bindings")]
+        [Space]
+        [SerializeField] private Button gamePadInteractButton;
+        [SerializeField] private Button gamePadInteractAlternateButton;
+        [SerializeField] private Button gamePadPauseButton;
+        
+        [SerializeField] private TextMeshProUGUI gamePadInteractText;
+        [SerializeField] private TextMeshProUGUI gamePadInteractAlternateText;
+        [SerializeField] private TextMeshProUGUI gamePadPauseText;
 
         #endregion
-
-        [SerializeField] private Transform pressToRebindKeyTrans;
-        
-        
-        
 
         private void Awake(){
             Instance = this;
@@ -59,6 +68,10 @@ namespace GameScripts
             interactButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Interact); });
             interactAlternateButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.InteractAlternate); });
             pauseButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Pause); });
+            
+            gamePadInteractButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.GamePadInteract); });
+            gamePadInteractAlternateButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.GamePadInteractAlternate); });
+            gamePadPauseButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.GamePadPause); });
         }
 
         private void Start(){
@@ -79,6 +92,10 @@ namespace GameScripts
             interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
             interactAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
             pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+            
+            gamePadInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.GamePadInteract);
+            gamePadInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.GamePadInteractAlternate);
+            gamePadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.GamePadPause);
             
         }
 

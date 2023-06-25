@@ -24,7 +24,11 @@ namespace GameScripts {
             Hide();
         }
 
-        private void Show () => gameObject.SetActive(true);
+        private void Show(){
+            gameObject.SetActive(true);
+            resumeButton.Select();
+        }
+
         private void Hide () => gameObject.SetActive(false);
 
     }
