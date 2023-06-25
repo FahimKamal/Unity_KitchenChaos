@@ -5,9 +5,13 @@ using UnityEngine;
 namespace GameScripts {
     public class SoundManager : MonoBehaviour {
         public static SoundManager Instance{ get; private set; }
+        
+        private const string MASTER_VOLUME_KEY = "MasterVolume";
 
         private void Awake(){
             Instance = this;
+            
+            _volume = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, 1f);
         }
 
         [SerializeField] private AudioClipRefsSO audioClipRefsSO;
@@ -66,7 +70,9 @@ namespace GameScripts {
 
         public void ChangeVolume(){
             _volume += 0.1f;
-            if (_volume > 1.0f) _volume = 1.0f;
+            if (_volume > 1.0f) _volume = 0f;
+            PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, _volume);
+            PlayerPrefs.Save();
         }
 
         public float GetVolume => _volume;
