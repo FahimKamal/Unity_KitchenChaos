@@ -5,7 +5,7 @@ namespace GameScripts{
 
         public static MusicManager Instance{ get; private set; }
 
-        public const string MUSIC_VOLUME_KEY = "MusicVolume";
+        private const string MUSIC_VOLUME_KEY = "MusicVolume";
 
         private float _volume = 0.3f;
         private AudioSource _audioSource;

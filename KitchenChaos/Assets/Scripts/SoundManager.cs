@@ -18,7 +18,7 @@ namespace GameScripts {
 
         private float _volume = 1.0f;
 
-        private void Start(){
+        private void Start() {
             DeliveryManager.Instance.OnRecipeSuccess += DeliveryManager_OnRecipeSuccess;
             DeliveryManager.Instance.OnRecipeFailed += DeliveryManager_OnRecipeFailed;
             CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
