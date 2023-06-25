@@ -14,7 +14,10 @@ namespace GameScripts {
                 KitchenGameManager.Instance.TogglePauseGame();
             });
             mainMenuButton.onClick.AddListener(() => Loader.Load(Loader.Scene.MainMenuScene));
-            optionsButton.onClick.AddListener(() => OptionsMenuUI.Instance.Show());
+            optionsButton.onClick.AddListener(() => {
+                Hide();
+                OptionsMenuUI.Instance.Show(Show);
+            });
         }
 
         private void Start(){

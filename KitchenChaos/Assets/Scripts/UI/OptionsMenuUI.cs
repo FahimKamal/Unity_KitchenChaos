@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,6 +49,8 @@ namespace GameScripts
 
         #endregion
 
+        private Action _onCloseButtonAction;
+
         private void Awake(){
             Instance = this;
             
@@ -59,7 +62,10 @@ namespace GameScripts
                 MusicManager.Instance.ChangeVolume();
                 UpdateVisual();
             });
-            closeButton.onClick.AddListener(Hide);
+            closeButton.onClick.AddListener(() => {
+                Hide();
+                _onCloseButtonAction();
+            });
 
             moveUpButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.MoveUp);});
             moveDownButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.MoveDown); });
@@ -99,8 +105,10 @@ namespace GameScripts
             
         }
 
-        public void Show(){
+        public void Show(Action onCloseButtonAction){
+            _onCloseButtonAction = onCloseButtonAction;
             gameObject.SetActive(true);
+            soundEffectsButton.Select();
         }
 
         private void Hide(){
