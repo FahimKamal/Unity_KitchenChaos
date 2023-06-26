@@ -18,7 +18,7 @@ namespace GameScripts {
             _spawnPlateTimer += Time.deltaTime;
             if (_spawnPlateTimer >= spawnPlateTimerMax){
                 _spawnPlateTimer = 0.0f;
-                if (_plateSpawnedAmount < _plateSpawnedAmountMax){
+                if (KitchenGameManager.Instance.IsGamePlaying && _plateSpawnedAmount < _plateSpawnedAmountMax){
                     _plateSpawnedAmount++;
                     OnPlateSpawned?.Invoke(this, EventArgs.Empty);
                 }

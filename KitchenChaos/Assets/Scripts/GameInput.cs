@@ -9,6 +9,7 @@ namespace GameScripts{
         public event EventHandler OnInteractAction;
         public event EventHandler OnInteractAlternateAction;
         public event EventHandler OnPauseAction;
+        public event EventHandler OnBindingRebind;
 
         public enum Binding{
             MoveUp,
@@ -187,6 +188,8 @@ namespace GameScripts{
 
                     PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, _playerInputActions.SaveBindingOverridesAsJson());
                     PlayerPrefs.Save();
+                    
+                    OnBindingRebind?.Invoke(this, EventArgs.Empty);
                 }).Start();
         }
     }

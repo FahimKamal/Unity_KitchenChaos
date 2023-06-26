@@ -19,7 +19,6 @@ namespace GameScripts {
         }
 
         private State _state;
-        private float _waitingToStartTimer = 1f;
         private float _countdownToStartTimer = 3f;
         private float _gamePlayingTimer;
         private readonly float _gamePlayingTimerMax = 10f;
@@ -33,6 +32,14 @@ namespace GameScripts {
 
         private void Start(){
             GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
+            GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+        }
+
+        private void GameInput_OnInteractAction(object sender, EventArgs e){
+            if (_state == State.WaitingToStart){
+                _state = State.CountdownToStart;
+                OnStateChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void GameInput_OnPauseAction(object sender, EventArgs e){
@@ -55,11 +62,7 @@ namespace GameScripts {
         private void Update(){
             switch (_state){
                 case State.WaitingToStart:
-                    _waitingToStartTimer -= Time.deltaTime;
-                    if (_waitingToStartTimer <= 0){
-                        _state = State.CountdownToStart;
-                        OnStateChanged?.Invoke(this, EventArgs.Empty);
-                    }
+                    
 
                     break;
                 case State.CountdownToStart:

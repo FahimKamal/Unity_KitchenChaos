@@ -31,7 +31,7 @@ namespace GameScripts {
             if (_spawnRecipeTimer <= 0){
                 _spawnRecipeTimer = _spawnRecipeTimerMax;
 
-                if (_waitingRecipeSoList.Count < _waitingRecipesMax){
+                if (KitchenGameManager.Instance.IsGamePlaying && _waitingRecipeSoList.Count < _waitingRecipesMax){
                     var waitingRecipeSO = recipeList.recipeSOList[Random.Range(0, recipeList.recipeSOList.Count)];
                     _waitingRecipeSoList.Add(waitingRecipeSO);
 
