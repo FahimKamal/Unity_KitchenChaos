@@ -67,6 +67,10 @@ namespace GameScripts {
         public void PlayFootSepsSound(Vector3 pos, float vol){
             PlaySound(audioClipRefsSO.footstep, pos, vol);
         }
+        
+        public void PlayCountDownSound(){
+            PlaySound(audioClipRefsSO.warning, Vector3.zero);
+        }
 
         public void ChangeVolume(){
             _volume += 0.1f;
