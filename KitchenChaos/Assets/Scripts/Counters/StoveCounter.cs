@@ -183,5 +183,7 @@ namespace GameScripts {
 
             return null;
         }
+        
+        public bool IsFried() => _state == State.Fried;
     }
 }

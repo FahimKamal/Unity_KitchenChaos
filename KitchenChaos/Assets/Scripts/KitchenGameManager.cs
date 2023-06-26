@@ -21,7 +21,7 @@ namespace GameScripts {
         private State _state;
         private float _countdownToStartTimer = 3f;
         private float _gamePlayingTimer;
-        private readonly float _gamePlayingTimerMax = 10f;
+        private readonly float _gamePlayingTimerMax = 30f;
         private bool isGamePaused = false;
 
 

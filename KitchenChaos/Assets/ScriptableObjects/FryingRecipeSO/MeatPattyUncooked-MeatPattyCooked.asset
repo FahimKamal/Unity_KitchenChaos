@@ -15,4 +15,4 @@ MonoBehaviour:
   recipeName: 
   input: {fileID: 11400000, guid: 7f22e2b99abaaca4ab56a046e9ced984, type: 2}
   output: {fileID: 11400000, guid: fa7d20a43b781bf48a657a87a883c46c, type: 2}
-  fryingTimerMax: 3
+  fryingTimerMax: 5

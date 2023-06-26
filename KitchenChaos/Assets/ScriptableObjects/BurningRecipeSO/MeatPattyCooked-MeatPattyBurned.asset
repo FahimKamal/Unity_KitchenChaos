@@ -15,4 +15,4 @@ MonoBehaviour:
   recipeName: 
   input: {fileID: 11400000, guid: fa7d20a43b781bf48a657a87a883c46c, type: 2}
   output: {fileID: 11400000, guid: dfceae657000d2d469615b0500a02d68, type: 2}
-  burningTimerMax: 5
+  burningTimerMax: 6
